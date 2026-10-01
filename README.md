@@ -1,4 +1,4 @@
-# Engenharia_Software
+# PetFinder
 
 Projeto de Engenharia de Software que envolve a aplicação de uma coleira inteligente pra monitoramento de pets.
 

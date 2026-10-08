@@ -2,6 +2,8 @@
 
     from django.db import models
 
+    # === TAD PADRAO PARA O CADASTROS DE USUARIOS ===
+
     class Cadastro(models.Model):
         nome = models.CharField(max_length = 100)
         #Verificação do email e mensagem de erro caso exista duplicatas do mesmo;

@@ -1,1 +1,18 @@
+#Ambiente virtual
 venv/
+env/
+ENV/
+
+#arquivos compilados do Python
+__pycache__
+*.py[cod]
+*$py.class
+
+#Confif local do Django ou BD de teste local
+db.sqlite3
+media/
+*.log
+
+#Pastas de IDEs
+.vscode/
+.idea/

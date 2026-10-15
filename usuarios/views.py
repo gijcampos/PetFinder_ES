@@ -16,9 +16,9 @@ def cadastro(request):
             usuario.save()
 
             #Redireciona o Cadastro para o Login
-            return redirect('login')
+            return redirect('login') 
 
     else:
         form = CadastroForm()
 
-    return render(request, 'usuarios/<tela_do_cadastro.html>', {'form': form})
+    return render(request, 'usuarios/<tela_do_cadastro.html>', {'form': form}) # !!! MUDAR <tela_do_cadastro.html> PARA SEU RESPECTIVO ARQUIVO QUANDO HOUVER A TELA DE CADASTRO !!!

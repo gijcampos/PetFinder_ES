@@ -22,3 +22,37 @@ def cadastro(request):
         form = CadastroForm()
 
     return render(request, 'usuarios/<tela_do_cadastro.html>', {'form': form}) # !!! MUDAR <tela_do_cadastro.html> PARA SEU RESPECTIVO ARQUIVO QUANDO HOUVER A TELA DE CADASTRO !!!
+
+# ===== Funções de Edição e Exclusão do formulário de Cadastro =====
+
+def editar_perfil(request, id): #Solicita o ID do cadastro do usuario
+    cadastro = get_object_or_404 (Cadastro, id=id) #Faz a busca se não retornar nada aparece o erro 404;
+
+    if request.method == 'POST':
+        
+        form = CadastroForm(request.POST, instance=cadastro)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('perfil_sucesso', id=cadastro.id)
+    
+    else:
+        form = CadastroForm(instance=cadastro)
+
+    return render(
+        request, 'usuarios/<editar_perfil.html>', {'form': form, 'cadastro': cadastro}
+    )
+
+def excluir_perfil(request, id):
+    cadastro = get_objetct_or_404(Cadastro, id=id)
+
+    if request.method == 'POST':
+        cadastro.delete()
+        
+        return redirect(
+            'cadastrar'
+        )
+
+    return render(
+        request, 'usuarios/<excluir_perfil.html>', {'cadastro': cadastro}
+    )

@@ -44,13 +44,13 @@ def editar_perfil(request, id): #Solicita o ID do cadastro do usuario
     )
 
 def excluir_perfil(request, id):
-    cadastro = get_objetct_or_404(Cadastro, id=id)
+    cadastro = get_object_or_404(Cadastro, id=id)
 
     if request.method == 'POST':
         cadastro.delete()
         
         return redirect(
-            'cadastrar'
+            'cadastro'
         )
 
     return render(

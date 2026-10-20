@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Apps criados aqui!!!
+    'usuarios',
+    'pets',
 ]
 
 MIDDLEWARE = [
@@ -74,12 +78,8 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'NOME_DO_BANCO_DE_DADOS',
-        'USER': 'USUARIO_MYSQL'
-        'PASSWORD': 'SENHA_DO_MYSQL'
-        'HOST': 'LOCALHOST_OU_IP'
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

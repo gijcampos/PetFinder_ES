@@ -1,5 +1,3 @@
-    versao_CRUD = "1.0"
-
     from django.db import models
 
     # === TAD PADRAO PARA O CADASTROS DE USUARIOS ===

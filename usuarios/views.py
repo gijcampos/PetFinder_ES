@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
+from .models import Cadastro
 from .forms import CadastroForm
 
 # ===== Arquivo que lida com as criações e validações dos formularios =====
@@ -26,7 +27,7 @@ def cadastro(request):
 # ===== Funções de Edição e Exclusão do formulário de Cadastro =====
 
 def editar_perfil(request, id): #Solicita o ID do cadastro do usuario
-    cadastro = get_object_or_404 (Cadastro, id=id) #Faz a busca se não retornar nada aparece o erro 404;
+    cadastro = get_object_or_404(Cadastro, id=id) #Faz a busca se não retornar nada aparece o erro 404;
 
     if request.method == 'POST':
         

@@ -24,25 +24,27 @@ CREATE TABLE CONTATO_EMERGENCIA(
     FOREIGN KEY (id_tutor) 	REFERENCES TUTOR(id_tutor)		ON DELETE CASCADE -- CASO USUARIO OU TUTOR RELACIONADO SEJA APAGADO SOME DO BANCO
 );
 
-CREATE TABLE NOTIFICACAO(
-);
-
-CREATE TABLE ENDERECO(
-);
-
 CREATE TABLE HISTORICO_LOCALIZACAO(
-);
-
-CREATE TABLE PET(
-);
-
-CREATE TABLE AGENDAMENTO(
-);
-
-CREATE TABLE CLINICA(
-);
-
-CREATE TABLE TUTOR_CLINICA(
+	id_coleira 	char	(9) 	PRIMARY KEY,
+	latitude	float	(8),
+    longitude	float	(8),
+    FOREIGN KEY (id_coleira) REFERENCES PET(id_coleira)		ON DELETE CASCADE
 );
 
 
+
+-- 1. Cria um usuário que será o Tutor
+INSERT INTO USUARIO (id_usuario, nome, email, telefone, senha) 
+VALUES ('123456789', 'Ana Souza', 'ana@email.com', '11988887777', 'senha123');
+
+-- 2. Torna esse usuário um Tutor
+INSERT INTO TUTOR (id_pessoa, id_tutor) 
+VALUES ('123456789', 'TUT001');
+
+-- 3. Cria um segundo usuário que será o Contato de Emergência
+INSERT INTO USUARIO (id_usuario, nome, email, telefone, senha) 
+VALUES ('987654321', 'Carlos Silva', 'carlos@email.com', '11977778888', 'senha456');
+
+-- 4. Cadastra o contato de emergência vinculado ao tutor
+INSERT INTO CONTATO_EMERGENCIA (id_pessoa, id_contato, id_tutor, parentesco) 
+VALUES ('987654321', 'CONT001', 'TUT001', 'Amigo(a)');

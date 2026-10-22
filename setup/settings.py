@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Apps criados aqui!!!
     'usuarios',
     'pets',
+    'enderecos',
 ]
 
 MIDDLEWARE = [

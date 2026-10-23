@@ -10,7 +10,7 @@ Qualquer pessoa pode se aproximar da coleira e escanear o código pode acessar a
 
 A equipe é composto por:
 
-- Geovana Campos: gcampos.2025@alunos.utfpr.edu.br
+- Giovana Campos: gcampos.2025@alunos.utfpr.edu.br
 - Eliseu Camargo: eliseucamargo@alunos.utfpr.edu.br
 - Thais Santos: thaissantos.1997@alunos.utfpr.edu.br
 - João Alberto: joaotrassi@alunos.utfpr.edu.br

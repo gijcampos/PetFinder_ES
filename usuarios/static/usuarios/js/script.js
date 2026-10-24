@@ -19,4 +19,7 @@ form.addEventListener("submit", (e) => {
 
   erro.textContent = "";
   console.log("Login enviado para:", email);
+
+  
+  form.submit();
 });

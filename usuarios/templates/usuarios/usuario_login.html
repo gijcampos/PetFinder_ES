@@ -17,7 +17,9 @@
     <img class="logo" src="{% static 'usuarios/imagens/PetFinder-Logo.png' %}" alt="PetFinder - Coleira inteligente"
          onerror="this.style.display='none'">
 
-    <form id="form-login" novalidate>
+    <form id="form-login" method="POST" action="" novalidate>
+        {% csrf_token %}
+        
       <input class="campo" type="email" id="email" name="email"
              placeholder="E-mail" autocomplete="email" aria-label="E-mail" required>
       <input class="campo" type="password" id="senha" name="senha"

@@ -128,9 +128,10 @@
       <button class="botao" type="submit">Login</button>
     </form>
 
-    <a class="cadastro" href="cadastro.html">Novo cadastro</a>
+    <a class="cadastro" href="cadastro_de_tutor.html">Novo cadastro</a>
   </main>
 
+    <script src="cadastro_de_tutor/demo.js"></script>
   <script>
     const form = document.getElementById("form-login");
     const erro = document.getElementById("erro");
@@ -145,14 +146,23 @@
         form.email.focus();
         return;
       }
-      if (senha.length < 8) {
-        erro.textContent = "A senha precisa ter pelo menos 8 caracteres.";
+      if (!senha) {
+        erro.textContent = "Digite a senha.";
         form.senha.focus();
         return;
       }
 
+      // DEMONSTRAÇÃO: o back confere e-mail e senha no banco.
+      const achou = Demo.listar().some(
+        (t) => t.email.toLowerCase() === email.toLowerCase() && t.senha === senha
+      );
+      if (!achou) {
+        erro.textContent = "E-mail ou senha incorretos.";
+        return;
+      }
+
       erro.textContent = "";
-      console.log("Login enviado para:", email);
+      window.location.href = "lista_tutores.html";
     });
   </script>
 </body>

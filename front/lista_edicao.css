@@ -133,3 +133,28 @@ label { display: block; margin-bottom: 4px; font-size: 1.15rem; font-weight: 500
   .cartao.largo { overflow-x: auto; }
   .tabela { min-width: 620px; }
 }
+
+/* ===== Ajustes de proporção da lista de tutores (Figma) ===== */
+.topo { padding: 12px 24px; }
+.logo { height: 146px; }
+
+.pagina { padding: 22px; }
+
+.cartao.largo {
+  max-width: none;                     /* ocupa quase a tela toda */
+  min-height: calc(100vh - 215px);     /* card vai até o fim da tela */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+}
+
+.tabela { margin-top: 8px; }
+.tabela th { font-size: 1.6rem; }
+.tabela td { height: 44px; font-size: 1.2rem; }
+.tabela td:first-child { width: 110px; }
+
+/* Botão Voltar no canto inferior direito */
+.cartao.largo .rodape-form {
+  margin-top: auto;
+  justify-content: flex-end;
+}

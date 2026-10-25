@@ -146,8 +146,8 @@
         form.email.focus();
         return;
       }
-      if (!senha) {
-        erro.textContent = "Digite a senha.";
+        if (senha.length < 8) {
+        erro.textContent = "A senha precisa ter pelo menos 8 caracteres.";
         form.senha.focus();
         return;
       }

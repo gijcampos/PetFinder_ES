@@ -30,7 +30,6 @@
       color: var(--branco);
     }
 
-/* Cabeçalho branco com patinhas (mesmo padrão do login) */
     .topo {
       padding: 16px 40px;
       background-color: var(--branco);
@@ -212,6 +211,7 @@
     </div>
   </div>
 
+  <script src="demo.js"></script>
   <script>
     const form = document.getElementById("form-cadastro");
     const modal = document.getElementById("modal-sucesso");
@@ -253,8 +253,7 @@
 
       if (!email) { erro("email", "Informe o e-mail."); valido = false; }
       else if (!/^\S+@\S+\.\S+$/.test(email)) { erro("email", "Digite um e-mail válido."); valido = false; }
-      // DEMONSTRAÇÃO da tela 1.2. APAGAR quando o back checar o e-mail de verdade.
-      else if (email.toLowerCase() === "thaisssss@alunos.utfpr.edu.br") { erro("email", "email-duplicado"); valido = false; }
+      else if (Demo.emailExiste(email)) { erro("email", "email-duplicado"); valido = false; }
       else erro("email", "");
 
       if (digitos.length !== 11) { erro("telefone", "Informe o telefone com DDD: (44) 99999-9999."); valido = false; }
@@ -266,9 +265,9 @@
 
       if (!valido) { e.preventDefault(); return; }
 
-      // BACK: ao integrar, apague as 2 linhas abaixo para o formulário ser enviado ao servidor
-      // e mostre o modal depois que o servidor confirmar o cadastro.
+      // BACK: ao integrar, o servidor salva o tutor e depois mostra o modal.
       e.preventDefault();
+      Demo.adicionar({ nome, email, telefone: form.telefone.value, senha });
       modal.hidden = false;
     });
   </script>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PetFinder | Lista de tutores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <img class="logo" src="PetFinder-Logo.png" alt="PetFinder - Coleira inteligente"
+         onerror="this.style.display='none'">
+  </header>
+
+  <main class="pagina">
+    <section class="cartao largo" aria-labelledby="titulo">
+      <div class="titulo-linha">
+        <h1 id="titulo">LISTA DE TUTORES CADASTRADOS</h1>
+        <a class="botao azul" href="cadastro_de_tutor.html">+ Adicionar tutor</a>
+      </div>
+
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Ações</span></th>
+            <th scope="col">Nome completo</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Telefone</th>
+          </tr>
+        </thead>
+        <tbody id="linhas"></tbody>
+      </table>
+      <p class="vazio" id="vazio" hidden>Nenhum tutor cadastrado.</p>
+
+      <div class="rodape-form">
+        <div class="botoes">
+          <a class="botao vermelho" href="tela_login.html">Voltar</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de confirmação (tela 1.6 do Figma) -->
+  <div class="fundo-modal" id="modal-confirma" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirma-titulo">
+      <button class="fechar" type="button" id="fechar-confirma" aria-label="Fechar">X</button>
+      <h2 id="confirma-titulo">Atenção!</h2>
+      <p>Você tem certeza que deseja excluir esse cadastro?</p>
+      <div class="botoes">
+        <button class="botao verde" type="button" id="btn-sim">Sim</button>
+        <button class="botao vermelho" type="button" id="btn-nao">Não</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de exclusão realizada (tela 1.7 do Figma) -->
+  <div class="fundo-modal" id="modal-sucesso" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sucesso-titulo">
+      <button class="fechar" type="button" id="fechar-sucesso" aria-label="Fechar">X</button>
+      <h2 id="sucesso-titulo">Atenção!</h2>
+      <p>Conta excluída com sucesso!</p>
+    </div>
+  </div>
+
+  <script src="demo.js"></script>
+  <script>
+    const ICONE_EDITAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    const ICONE_EXCLUIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
+
+    const corpo = document.getElementById("linhas");
+    const vazio = document.getElementById("vazio");
+    const modalConfirma = document.getElementById("modal-confirma");
+    const modalSucesso = document.getElementById("modal-sucesso");
+    let idParaExcluir = null;
+
+    function celula(texto) {
+      const td = document.createElement("td");
+      td.textContent = texto;
+      return td;
+    }
+
+    function desenhar() {
+      const tutores = Demo.listar();   // BACK: buscar a lista no servidor
+      corpo.replaceChildren();
+      vazio.hidden = tutores.length > 0;
+
+      tutores.forEach((t) => {
+        const acoes = document.createElement("td");
+        acoes.className = "acoes";
+
+        const editar = document.createElement("a");
+        editar.href = "editar_tutor.html?id=" + t.id;
+        editar.setAttribute("aria-label", "Editar " + t.nome);
+        editar.innerHTML = ICONE_EDITAR;
+
+        const excluir = document.createElement("button");
+        excluir.type = "button";
+        excluir.setAttribute("aria-label", "Excluir " + t.nome);
+        excluir.innerHTML = ICONE_EXCLUIR;
+        excluir.addEventListener("click", () => abrirConfirmacao(t.id));
+
+        acoes.append(editar, excluir);
+        const linha = document.createElement("tr");
+        linha.append(acoes, celula(t.nome), celula(t.email), celula(t.telefone));
+        corpo.append(linha);
+      });
+    }
+
+    function abrirConfirmacao(id) {
+      idParaExcluir = id;
+      modalConfirma.hidden = false;
+      document.getElementById("btn-nao").focus();
+    }
+    function fecharConfirmacao() {
+      idParaExcluir = null;
+      modalConfirma.hidden = true;
+    }
+
+    document.getElementById("btn-nao").addEventListener("click", fecharConfirmacao);
+    document.getElementById("fechar-confirma").addEventListener("click", fecharConfirmacao);
+
+    document.getElementById("btn-sim").addEventListener("click", () => {
+      Demo.excluir(idParaExcluir);     // BACK: excluir o tutor no banco
+      fecharConfirmacao();
+      modalSucesso.hidden = false;
+      document.getElementById("fechar-sucesso").focus();
+    });
+
+    document.getElementById("fechar-sucesso").addEventListener("click", () => {
+      modalSucesso.hidden = true;
+      desenhar();                      // volta para a lista já atualizada
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modalConfirma.hidden) fecharConfirmacao();
+    });
+
+    desenhar();
+  </script>
+</body>
+</html>

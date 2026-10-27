@@ -24,6 +24,11 @@ def cadastro(request):
 
     return render(request, 'usuarios/<tela_do_cadastro.html>', {'form': form}) # !!! MUDAR <tela_do_cadastro.html> PARA SEU RESPECTIVO ARQUIVO QUANDO HOUVER A TELA DE CADASTRO !!!
 
+# ===== Tela de Login =====
+
+def login_view(request):
+    return render(request, 'usuarios/usuario_login.html')
+
 # ===== Funções de Edição e Exclusão do formulário de Cadastro =====
 
 def editar_perfil(request, id): #Solicita o ID do cadastro do usuario

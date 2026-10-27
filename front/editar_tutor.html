@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PetFinder | Editar tutor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lista_edicao.css">
+</head>
+<body>
+  <header class="topo">
+    <img class="logo" src="PetFinder-Logo.png" alt="PetFinder - Coleira inteligente"
+         onerror="this.style.display='none'">
+  </header>
+
+  <main class="pagina">
+    <section class="cartao" aria-labelledby="titulo">
+      <h1 id="titulo">EDITAR TUTOR</h1>
+      <p class="subtitulo">Altere os dados do tutor e salve.</p>
+
+      <form id="form-editar" method="post" action="" novalidate>
+        <div class="grupo">
+          <label for="nome">Nome completo:*</label>
+          <input class="entrada" type="text" id="nome" name="nome" autocomplete="name" required aria-describedby="erro-nome">
+          <p class="erro-campo" id="erro-nome" role="alert"></p>
+        </div>
+
+        <div class="grupo">
+          <label for="email">E-mail:*</label>
+          <input class="entrada" type="email" id="email" name="email" autocomplete="email" required aria-describedby="erro-email">
+          <p class="erro-campo" id="erro-email" role="alert"></p>
+        </div>
+
+        <div class="grupo">
+          <label for="telefone">Telefone de contato:*</label>
+          <input class="entrada" type="tel" id="telefone" name="telefone" placeholder="(44) 99999-9999"
+                 inputmode="numeric" maxlength="15" autocomplete="tel" required aria-describedby="erro-telefone">
+          <p class="erro-campo" id="erro-telefone" role="alert"></p>
+        </div>
+
+        <div class="grupo">
+          <label for="senha">Nova senha (deixe em branco para manter a atual):</label>
+          <input class="entrada" type="password" id="senha" name="senha" placeholder="Mínimo de 8 caracteres"
+                 autocomplete="new-password" aria-describedby="erro-senha">
+          <p class="erro-campo" id="erro-senha" role="alert"></p>
+        </div>
+
+        <div class="rodape-form">
+          <p class="obrigatorio">*Campos obrigatórios</p>
+          <div class="botoes">
+            <a class="botao vermelho" href="lista_tutores.html">Cancelar</a>
+            <button class="botao verde" type="submit">Salvar</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="cadastro_de_tutor/demo.js"></script>
+  <script>
+    const id = Number(new URLSearchParams(location.search).get("id"));
+    const tutor = Demo.listar().find((t) => t.id === id);   // BACK: buscar o tutor pelo id
+
+    if (!tutor) {
+      location.replace("lista_tutores.html");
+    } else {
+      const form = document.getElementById("form-editar");
+      form.nome.value = tutor.nome;
+      form.email.value = tutor.email;
+      form.telefone.value = tutor.telefone;
+
+      function erro(campo, mensagem) {
+        const input = document.getElementById(campo);
+        input.classList.toggle("invalido", Boolean(mensagem));
+        input.setAttribute("aria-invalid", mensagem ? "true" : "false");
+        document.getElementById("erro-" + campo).textContent = mensagem || "";
+      }
+
+      // Máscara do telefone
+      form.telefone.addEventListener("input", () => {
+        const d = form.telefone.value.replace(/\D/g, "").slice(0, 11);
+        let r = d;
+        if (d.length > 7) r = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+        else if (d.length > 2) r = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+        else if (d.length > 0) r = `(${d}`;
+        form.telefone.value = r;
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nome = form.nome.value.trim();
+        const email = form.email.value.trim();
+        const digitos = form.telefone.value.replace(/\D/g, "");
+        const senha = form.senha.value;
+        let valido = true;
+
+        if (!nome) { erro("nome", "Informe o nome completo."); valido = false; } else erro("nome", "");
+
+        if (!email) { erro("email", "Informe o e-mail."); valido = false; }
+        else if (!/^\S+@\S+\.\S+$/.test(email)) { erro("email", "Digite um e-mail válido."); valido = false; }
+        else if (Demo.emailExiste(email, tutor.id)) { erro("email", "Este e-mail já está cadastrado."); valido = false; }
+        else erro("email", "");
+
+        if (digitos.length !== 11) { erro("telefone", "Informe o telefone com DDD: (44) 99999-9999."); valido = false; }
+        else erro("telefone", "");
+
+        if (senha && senha.length < 8) { erro("senha", "A senha não atende aos requisitos."); valido = false; }
+        else erro("senha", "");
+
+        if (!valido) return;
+
+        Demo.atualizar(tutor.id, { nome, email, telefone: form.telefone.value, senha });  // BACK: salvar no banco
+        location.href = "lista_tutores.html";
+      });
+    }
+  </script>
+</body>
+</html>

@@ -7,6 +7,8 @@ ENV/
 __pycache__
 *.py[cod]
 *$py.class
+__pycache__/
+*.pyc
 
 #Confif local do Django ou BD de teste local
 db.sqlite3

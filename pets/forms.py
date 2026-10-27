@@ -1,16 +1,16 @@
 from django import forms
-from .models import Pets 
+from .models import Pet
 
 #formularios dos Pets
 
 class PetsForm(forms.ModelForm):
     class Meta:
-        model = Pets
+        model = Pet
         fields = [
+            'id_coleira',
             'nome',
             'especie',
             'raca',
             'idade',
-            'id_disp_rastreamento',
-            'tutor'
+            'id_tutor'
         ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
-from .models import Cadastro
+from .models import Usuario
 from .forms import CadastroForm
 
 # ===== Arquivo que lida com as criações e validações dos formularios =====
@@ -13,7 +13,7 @@ def cadastro(request):
         if form.is_valid():
             usuario = form.save(commit = False)
             #Pega a senha e a transforma em hash
-            usuario.senha = make_password(form.cleaned_data['senha'])
+            usuario.senha_hash = make_password(form.cleaned_data['senha'])
             usuario.save()
 
             #Redireciona o Cadastro para o Login
@@ -32,7 +32,7 @@ def login_view(request):
 # ===== Funções de Edição e Exclusão do formulário de Cadastro =====
 
 def editar_perfil(request, id): #Solicita o ID do cadastro do usuario
-    cadastro = get_object_or_404(Cadastro, id=id) #Faz a busca se não retornar nada aparece o erro 404;
+    cadastro = get_object_or_404(Usuario, pk=id) #Faz a busca se não retornar nada aparece o erro 404;
 
     if request.method == 'POST':
         
@@ -50,7 +50,7 @@ def editar_perfil(request, id): #Solicita o ID do cadastro do usuario
     )
 
 def excluir_perfil(request, id):
-    cadastro = get_object_or_404(Cadastro, id=id)
+    cadastro = get_object_or_404(Usuario, pk=id)
 
     if request.method == 'POST':
         cadastro.delete()
